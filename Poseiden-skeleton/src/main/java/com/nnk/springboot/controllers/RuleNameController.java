@@ -3,7 +3,6 @@ package com.nnk.springboot.controllers;
 import com.nnk.springboot.domain.RuleName;
 import com.nnk.springboot.services.RuleNameService;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,16 +10,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import java.util.List;
 
 import javax.validation.Valid;
 
 @Controller
+@SessionAttributes("userInfo")
 public class RuleNameController {
   
-    @Autowired
     private RuleNameService ruleNameService;
+
+    public RuleNameController(RuleNameService ruleNameService) {
+      this.ruleNameService = ruleNameService;
+    }
 
     @RequestMapping("/ruleName/list")
     public String home(Model model)
@@ -39,7 +43,7 @@ public class RuleNameController {
     public String validate(@Valid RuleName ruleName, BindingResult result, Model model) {
         if(result.hasErrors()) return "ruleName/add";
         ruleNameService.saveRuleName(ruleName);
-        return "ruleName/add";
+        return "redirect:/ruleName/list";
     }
 
     @GetMapping("/ruleName/update/{id}")

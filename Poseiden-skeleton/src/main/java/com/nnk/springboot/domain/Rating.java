@@ -1,23 +1,30 @@
 package com.nnk.springboot.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.sql.Timestamp;
+import javax.validation.constraints.Positive;
 
+import org.hibernate.annotations.DynamicUpdate;
+
+@DynamicUpdate
 @Entity
 @Table(name = "rating")
 public class Rating {
   
+  @Id
   @GeneratedValue(strategy= GenerationType.AUTO)
   private Integer id;
-  @NotBlank
+  @NotBlank(message = "Moodys Rating is mandatory")
   private String moodysRating;
-  @NotBlank
+  @NotBlank(message = "SandP Rating is mandatory")
   private String sandPRating;
-  @NotBlank
+  @NotBlank(message = "Fitch Rating is mandatory")
   private String fitchRating;
-  @NotNull
+  @NotNull(message = "Order Number is mandatory")
+  @Digits(fraction = 0, integer = 10)
+  @Positive(message = "Order Number must be positive")
   private Integer orderNumber;
   
   

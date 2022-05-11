@@ -1,25 +1,35 @@
 package com.nnk.springboot.domain;
 
-import org.hibernate.validator.constraints.Length;
-
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+
+import org.hibernate.annotations.DynamicUpdate;
+
 import java.sql.Timestamp;
 
-
+@DynamicUpdate
 @Entity
 @Table(name = "curvepoint")
 public class CurvePoint {
   
+  @Id
   @GeneratedValue(strategy= GenerationType.AUTO)
   private Integer id;
-  @NotNull
+  @NotNull(message = "CurveId is mandatory")
+  @Digits(fraction = 0, integer = 10)
+  @Positive(message = "CurveId must be positive")
   private Integer curveId;
   private Timestamp asOfDate;
-  @NotBlank
+  @NotNull(message = "Term is mandatory")
+  @Digits(fraction = 2, integer = 10)
+  @Positive(message = "Term must be positive")
   private Double term;
-  @NotBlank
+  @NotNull(message = "Value is mandatory")
+  @Digits(fraction = 2, integer = 10)
+  @Positive(message = "Value must be positive")
   private Double value;
   private Timestamp creationDate;
   

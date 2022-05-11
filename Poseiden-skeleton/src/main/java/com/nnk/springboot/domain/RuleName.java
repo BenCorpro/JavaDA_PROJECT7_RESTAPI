@@ -2,25 +2,28 @@ package com.nnk.springboot.domain;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.sql.Timestamp;
 
+import org.hibernate.annotations.DynamicUpdate;
+
+@DynamicUpdate
 @Entity
 @Table(name = "rulename")
 public class RuleName {
   
+  @Id
   @GeneratedValue(strategy= GenerationType.AUTO)
   private Integer id;
-  @NotBlank
+  @NotBlank(message = "Name is mandatory")
   private String name;
-  @NotBlank
+  @NotBlank(message = "Description is mandatory")
   private String description;
-  @NotBlank
+  @NotBlank(message = "Json is mandatory")
   private String json;
-  @NotBlank
+  @NotBlank(message = "Template is mandatory")
   private String template;
-  @NotBlank
+  @NotBlank(message = "SqlStr is mandatory")
   private String sqlStr;
-  @NotBlank
+  @NotBlank(message = "SqlPart is mandatory")
   private String sqlPart;
   
   

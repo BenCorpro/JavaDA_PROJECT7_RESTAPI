@@ -3,11 +3,20 @@ package com.nnk.springboot.controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 @Controller
+@SessionAttributes("userInfo")
 public class HomeController
 {
-	@RequestMapping("/")
+  
+  @RequestMapping("/")
+  public String homeLogin(Model model)
+  {
+    return "login";
+  }
+  
+	@RequestMapping("/home")
 	public String home(Model model)
 	{
 		return "home";

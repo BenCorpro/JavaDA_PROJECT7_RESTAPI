@@ -1,10 +1,16 @@
 package com.nnk.springboot.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+
+import org.hibernate.annotations.DynamicUpdate;
+
 import java.sql.Timestamp;
 
-
+@DynamicUpdate
 @Entity
 @Table(name = "trade")
 public class Trade {
@@ -12,11 +18,13 @@ public class Trade {
   @Id
   @GeneratedValue(strategy= GenerationType.AUTO)
   private Integer tradeId;
-  @NotBlank
+  @NotBlank(message = "Account is mandatory")
   private String account;
-  @NotBlank
+  @NotBlank(message = "Type is mandatory")
   private String type;
-  @NotBlank
+  @NotNull(message = "Buy Quantity is mandatory")
+  @Digits(fraction = 2, integer = 10)
+  @Positive(message = "Buy Quantity must be positive")
   private Double buyQuantity;
   private Double sellQuantity;
   private Double buyPrice;
@@ -39,13 +47,16 @@ public class Trade {
   
   public Trade() {
   }
-
-  public Trade(@NotBlank String account, @NotBlank String type) {
+  
+  public Trade(@NotBlank String account, @NotBlank String type,
+      @NotNull Double buyQuantity) {
+    super();
     this.account = account;
     this.type = type;
+    this.buyQuantity = buyQuantity;
   }
-  
-  
+
+
   public Integer getTradeId() {
     return tradeId;
   }
@@ -69,108 +80,6 @@ public class Trade {
   }
   public void setBuyQuantity(Double buyQuantity) {
     this.buyQuantity = buyQuantity;
-  }
-  public Double getSellQuantity() {
-    return sellQuantity;
-  }
-  public void setSellQuantity(Double sellQuantity) {
-    this.sellQuantity = sellQuantity;
-  }
-  public Double getBuyPrice() {
-    return buyPrice;
-  }
-  public void setBuyPrice(Double buyPrice) {
-    this.buyPrice = buyPrice;
-  }
-  public Double getSellPrice() {
-    return sellPrice;
-  }
-  public void setSellPrice(Double sellPrice) {
-    this.sellPrice = sellPrice;
-  }
-  public Timestamp getTradeDate() {
-    return tradeDate;
-  }
-  public void setTradeDate(Timestamp tradeDate) {
-    this.tradeDate = tradeDate;
-  }
-  public String getSecurity() {
-    return security;
-  }
-  public void setSecurity(String security) {
-    this.security = security;
-  }
-  public String getStatus() {
-    return status;
-  }
-  public void setStatus(String status) {
-    this.status = status;
-  }
-  public String getTrader() {
-    return trader;
-  }
-  public void setTrader(String trader) {
-    this.trader = trader;
-  }
-  public String getBenchmark() {
-    return benchmark;
-  }
-  public void setBenchmark(String benchmark) {
-    this.benchmark = benchmark;
-  }
-  public String getBook() {
-    return book;
-  }
-  public void setBook(String book) {
-    this.book = book;
-  }
-  public String getCreationName() {
-    return creationName;
-  }
-  public void setCreationName(String creationName) {
-    this.creationName = creationName;
-  }
-  public Timestamp getCreationDate() {
-    return creationDate;
-  }
-  public void setCreationDate(Timestamp creationDate) {
-    this.creationDate = creationDate;
-  }
-  public String getRevisionName() {
-    return revisionName;
-  }
-  public void setRevisionName(String revisionName) {
-    this.revisionName = revisionName;
-  }
-  public Timestamp getRevisionDate() {
-    return revisionDate;
-  }
-  public void setRevisionDate(Timestamp revisionDate) {
-    this.revisionDate = revisionDate;
-  }
-  public String getDealName() {
-    return dealName;
-  }
-  public void setDealName(String dealName) {
-    this.dealName = dealName;
-  }
-  public String getDealType() {
-    return dealType;
-  }
-  public void setDealType(String dealType) {
-    this.dealType = dealType;
-  }
-  public String getSourceListId() {
-    return sourceListId;
-  }
-  public void setSourceListId(String sourceListId) {
-    this.sourceListId = sourceListId;
-  }
-  public String getSide() {
-    return side;
-  }
-  public void setSide(String side) {
-    this.side = side;
   }
   
   

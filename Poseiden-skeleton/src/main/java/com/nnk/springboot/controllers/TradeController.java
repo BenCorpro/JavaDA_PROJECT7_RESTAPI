@@ -3,7 +3,6 @@ package com.nnk.springboot.controllers;
 import com.nnk.springboot.domain.Trade;
 import com.nnk.springboot.services.TradeService;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,16 +10,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import java.util.List;
 
 import javax.validation.Valid;
 
 @Controller
+@SessionAttributes("userInfo")
 public class TradeController {
     
-    @Autowired
     private TradeService tradeService;
+
+    public TradeController(TradeService tradeService) {
+      this.tradeService = tradeService;
+    }
 
     @RequestMapping("/trade/list")
     public String home(Model model)
@@ -39,7 +43,7 @@ public class TradeController {
     public String validate(@Valid Trade trade, BindingResult result, Model model) {
         if(result.hasErrors()) return "trade/add";
         tradeService.saveTrade(trade);
-        return "trade/add";
+        return "redirect:/trade/list";
     }
 
     @GetMapping("/trade/update/{id}")
