@@ -1,0 +1,80 @@
+package com.nnk.springboot.services;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.List;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.nnk.springboot.domain.RuleName;
+import com.nnk.springboot.domain.Trade;
+import com.nnk.springboot.repositories.TradeRepository;
+
+@SpringBootTest
+@TestInstance(Lifecycle.PER_CLASS)
+public class TradeServiceTest {
+
+  @Autowired
+  private TradeService tradeService;
+  @Autowired
+  private TradeRepository tradeRepository;
+  
+  Trade tradeTest = new Trade("Trade Account", "Type", 10d);
+  Trade tradeDeleteTest = new Trade("Trade Account delTest", "Type delTest", 20d);
+  Trade tradeUpdateTest = new Trade("Trade Account updaTest", "Type updaTest", 50d);
+  
+  @BeforeAll
+  public void setDb() {
+    tradeRepository.deleteAll();
+    tradeService.saveTrade(tradeTest);
+    tradeService.saveTrade(tradeDeleteTest);
+    tradeService.saveTrade(tradeUpdateTest);
+  }
+  
+  @Test
+  public void testGetAllTrade() {
+    List<Trade> tradeListTest = tradeService.getAllTrade();
+    assertNotNull(tradeListTest);
+    assertTrue(tradeListTest.size()>0);
+  }
+  
+  @Test
+  public void testSaveTrade() {
+    Trade saveTradeTest = new Trade("Trade Account saveTest", "Type saveTest", 30d);
+    saveTradeTest = tradeService.saveTrade(saveTradeTest);
+    assertNotNull(saveTradeTest);
+    assertEquals("Trade Account saveTest",saveTradeTest.getAccount());
+  }
+  
+  @Test
+  public void testUpdateTrade() {
+    Integer tradeUpdateIdTest = tradeUpdateTest.getTradeId();
+    Trade updateTradeTest = new Trade("Trade Account Testupdt", "Type Testupdt", 40d);
+    updateTradeTest = tradeService.updateTrade(tradeUpdateIdTest, updateTradeTest);
+    assertNotNull(updateTradeTest);
+    assertEquals("Trade Account Testupdt",updateTradeTest.getAccount());
+  }
+  
+  @Test
+  public void testGetTradeById() {
+    Integer tradeIdTest = tradeTest.getTradeId();
+    Trade tradeByIdTest = tradeService.getTradeById(tradeIdTest);
+    assertNotNull(tradeByIdTest);
+    assertEquals("Type", tradeByIdTest.getType());
+  }
+  
+  @Test
+  public void testDeleteById() {
+    Integer tradeDeleteIdTest = tradeDeleteTest.getTradeId();
+    tradeService.deleteById(tradeDeleteIdTest);
+    assertNull(tradeService.getTradeById(tradeDeleteIdTest));
+  }
+}

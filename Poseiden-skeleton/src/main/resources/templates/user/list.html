@@ -13,7 +13,9 @@
 
 		</div>
 		<div class="col-6 text-right">
-			<a href="/">Home</a>&nbsp;|&nbsp;<a href="/login">Login</a>
+			<a th:href="@{/home}">Home</a>&nbsp;|&nbsp;<b th:inline="text"  class="user" th:text="${userInfo}?:''"> [[${#httpServletRequest.remoteUser}]] </b><form th:action="@{/logout}" method="POST">
+				<input type="submit" value="Logout"/>
+			</form>
 		</div>
 	</div>
 	<div class="row"><h2>User List</h2></div>
