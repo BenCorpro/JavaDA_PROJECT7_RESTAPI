@@ -7,7 +7,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
-import com.nnk.springboot.services.UserDetailsServiceImpl;
+import com.nnk.springboot.services.impl.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity

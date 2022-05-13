@@ -1,8 +1,8 @@
 package com.nnk.springboot.controllers;
 
 import com.nnk.springboot.domain.User;
-import com.nnk.springboot.services.PasswordValidationService;
 import com.nnk.springboot.services.UserService;
+import com.nnk.springboot.services.impl.PasswordValidationService;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
