@@ -73,6 +73,18 @@ public class TradeControllerTest {
   }
   
   @Test
+  public void testValidate_Negative() throws Exception{
+    when(tradeService.saveTrade(tradeValidTest)).thenReturn(tradeValidTest);
+    mockMvc.perform(post("/trade/validate")
+        .param("account", "Trade Account validTest")
+        .param("type", "Type validTest")
+        .param("buyQuantity", "-20"))
+    .andExpect(status().isOk())
+    .andExpect(view().name("trade/add"))
+    .andExpect(model().attributeHasFieldErrors("trade", "buyQuantity"));
+  }
+  
+  @Test
   public void testShowUpdateForm() throws Exception{
     when(tradeService.getTradeById(1)).thenReturn(tradeValidTest);
     mockMvc.perform(get("/trade/update/1"))
@@ -90,6 +102,18 @@ public class TradeControllerTest {
         .param("buyQuantity", "30"))
        .andExpect(status().is3xxRedirection())
        .andExpect(redirectedUrl("/trade/list"));
+  }
+  
+  @Test
+  public void testUpdate_Negative() throws Exception{
+    when(tradeService.saveTrade(tradeValidTest)).thenReturn(tradeValidTest);
+    mockMvc.perform(post("/trade/update/{id}", "2")
+        .param("account", "Trade Account updateTest")
+        .param("type", "")
+        .param("buyQuantity", "30"))
+        .andExpect(status().isOk())
+        .andExpect(view().name("trade/update"))
+        .andExpect(model().attributeHasFieldErrors("trade", "type"));
   }
   
   @Test

@@ -1,6 +1,7 @@
 package com.nnk.springboot.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -54,12 +55,26 @@ public class RatingServiceTest {
   }
   
   @Test
+  public void testSaveRating_Null() {
+    Rating saveRatingTest = null;
+    saveRatingTest = ratingService.saveRating(saveRatingTest);
+    assertNull(saveRatingTest);
+  }
+  
+  @Test
   public void testUpdateRating() {
     Integer ratingUpdateIdTest = ratingUpdateTest.getId();
     Rating updateRatingTest = new Rating("Moodys Rating updatetest", "Sand PRating updatetest", "Fitch Rating updatetest", 40);
     updateRatingTest = ratingService.updateRating(ratingUpdateIdTest, updateRatingTest);
     assertNotNull(updateRatingTest);
     assertEquals("Moodys Rating updatetest",updateRatingTest.getMoodysRating());
+  }
+  
+  @Test
+  public void testUpdateRating_Null() {
+    Rating updateRatingTest = new Rating("Moodys Rating updatetest", "Sand PRating updatetest", "Fitch Rating updatetest", 40);
+    updateRatingTest = ratingService.updateRating(999999999, updateRatingTest);
+    assertNull(updateRatingTest);
   }
   
   @Test
@@ -71,9 +86,20 @@ public class RatingServiceTest {
   }
   
   @Test
+  public void testGetRatingById_Null() {
+    Rating ratingByIdTest = ratingService.getRatingById(999999999);
+    assertNull(ratingByIdTest);
+  }
+  
+  @Test
   public void testDeleteRatingById() {
     Integer ratingDeleteIdTest = ratingDeleteTest.getId();
     ratingService.deleteRatingById(ratingDeleteIdTest);
     assertNull(ratingService.getRatingById(ratingDeleteIdTest));
+  }
+  
+  @Test
+  public void testDeleteRatingById_False() {
+    assertFalse(ratingService.deleteRatingById(999999999));
   }
 }

@@ -1,6 +1,7 @@
 package com.nnk.springboot.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -55,14 +56,27 @@ public class UserServiceTest {
   }
   
   @Test
+  public void testSaveUser_Null() {
+    User saveUserTest = null;
+    saveUserTest = userService.saveUser(saveUserTest);
+    assertNull(saveUserTest);
+  }
+  
+  @Test
   public void testupdateUser() {
     userUpdateTest = userService.getUserByUserName(userUpdateTest.getUsername());
     Integer tradeUpdateIdUser = userUpdateTest.getId();
-    System.out.println(tradeUpdateIdUser.intValue());
     User updateUserTest = new User("UserName Testupdt", "Password Testupdt", "FullName Testupdt", UserRole.USER.name());
     updateUserTest = userService.updateUser(tradeUpdateIdUser, updateUserTest);
     assertNotNull(updateUserTest);
     assertEquals("FullName Testupdt",updateUserTest.getFullname());
+  }
+  
+  @Test
+  public void testupdateUser_Null() {
+    User updateUserTest = new User("UserName Testupdt", "Password Testupdt", "FullName Testupdt", UserRole.USER.name());
+    updateUserTest = userService.updateUser(999999999, updateUserTest);
+    assertNull(updateUserTest);
   }
   
   @Test
@@ -75,11 +89,22 @@ public class UserServiceTest {
   }
   
   @Test
+  public void testgetUserById_Null() {
+    User userByIdTest = userService.getUserById(999999999);
+    assertNull(userByIdTest);
+  }
+  
+  @Test
   public void testdeleteUserById() {
     userDeleteTest = userService.getUserByUserName(userDeleteTest.getUsername());
     Integer userDeleteIdTest = userDeleteTest.getId();
     userService.deleteUserById(userDeleteIdTest);
     assertNull(userService.getUserById(userDeleteIdTest));
+  }
+  
+  @Test
+  public void testdeleteUserById_False() {
+    assertFalse(userService.deleteUserById(999999999));
   }
   
   }

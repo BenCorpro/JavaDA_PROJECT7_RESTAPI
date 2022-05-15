@@ -76,6 +76,21 @@ public class RuleNameControllerTest {
   }
   
   @Test
+  public void testValidate_Negative() throws Exception{
+    when(ruleNameService.saveRuleName(ruleValidTest)).thenReturn(ruleValidTest);
+    mockMvc.perform(post("/ruleName/validate")
+        .param("name", "Rule Name validTest")
+        .param("description", "")
+        .param("json", "Json validTest")
+        .param("template", "Template validTest")
+        .param("sqlStr", "SQL validTest")
+        .param("sqlPart", "SQL Part validTest"))
+    .andExpect(status().isOk())
+    .andExpect(view().name("ruleName/add"))
+    .andExpect(model().attributeHasFieldErrors("ruleName", "description"));
+  }
+  
+  @Test
   public void testShowUpdateForm() throws Exception{
     when(ruleNameService.getRuleNameById(1)).thenReturn(ruleValidTest);
     mockMvc.perform(get("/ruleName/update/1"))
@@ -96,6 +111,21 @@ public class RuleNameControllerTest {
         .param("sqlPart", "SQL Part validTest"))
        .andExpect(status().is3xxRedirection())
        .andExpect(redirectedUrl("/ruleName/list"));
+  }
+  
+  @Test
+  public void testUpdate_Negative() throws Exception{
+    when(ruleNameService.saveRuleName(ruleValidTest)).thenReturn(ruleValidTest);
+    mockMvc.perform(post("/ruleName/update/{id}", "2")
+        .param("name", "Rule Name validTest")
+        .param("description", "Description validTest")
+        .param("json", "Json validTest")
+        .param("template", "")
+        .param("sqlStr", "SQL validTest")
+        .param("sqlPart", "SQL Part validTest"))
+    .andExpect(status().isOk())
+    .andExpect(view().name("ruleName/update"))
+    .andExpect(model().attributeHasFieldErrors("ruleName", "template"));
   }
   
   @Test

@@ -1,6 +1,7 @@
 package com.nnk.springboot.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -54,12 +55,26 @@ public class BidListServiceTest {
   }
   
   @Test
+  public void testSaveBidList_Null() {
+    BidList saveBidListTest = null;
+    saveBidListTest = bidListService.saveBidList(saveBidListTest);
+    assertNull(saveBidListTest);
+  }
+  
+  @Test
   public void testUpdateBidList() {
     Integer bidupdateIdTest = bidUpdateTest.getBidListId();
     BidList updateBidListTest = new BidList("Account Test Update", "Type Test Update", 40d);
     updateBidListTest = bidListService.updateBidList(bidupdateIdTest, updateBidListTest);
     assertNotNull(updateBidListTest);
     assertEquals("Account Test Update",updateBidListTest.getAccount());
+  }
+  
+  @Test
+  public void testUpdateBidList_Null() {
+    BidList updateBidListTest = new BidList("Account Test Update", "Type Test Update", 40d);
+    updateBidListTest = bidListService.updateBidList(999999999, updateBidListTest);
+    assertNull(updateBidListTest);
   }
   
   @Test
@@ -71,9 +86,20 @@ public class BidListServiceTest {
   }
   
   @Test
+  public void testGetBidListById_Null() {
+    BidList bidByIdTest = bidListService.getBidListById(999999999);
+    assertNull(bidByIdTest);
+  }
+  
+  @Test
   public void testDeleteBidListById() {
     Integer biddeleteIdTest = bidDeleteTest.getBidListId();
     bidListService.deleteBidListById(biddeleteIdTest);
     assertNull(bidListService.getBidListById(biddeleteIdTest));
+  }
+  
+  @Test
+  public void testDeleteBidListById_False() {
+    assertFalse(bidListService.deleteBidListById(999999999));
   }
 }

@@ -74,6 +74,19 @@ public class RatingControllerTest {
   }
   
   @Test
+  public void testValidate_Negative() throws Exception{
+    when(ratingService.saveRating(ratingValidTest)).thenReturn(ratingValidTest);
+    mockMvc.perform(post("/rating/validate")
+        .param("moodysRating", "Moodys Rating validTest")
+        .param("sandPRating", "")
+        .param("fitchRating", "Fitch Rating validTest")
+        .param("orderNumber", "20"))
+    .andExpect(status().isOk())
+    .andExpect(view().name("rating/add"))
+    .andExpect(model().attributeHasFieldErrors("rating", "sandPRating"));
+  }
+  
+  @Test
   public void testShowUpdateForm() throws Exception{
     when(ratingService.getRatingById(1)).thenReturn(ratingValidTest);
     mockMvc.perform(get("/rating/update/1"))
@@ -92,6 +105,19 @@ public class RatingControllerTest {
         .param("orderNumber", "30"))
        .andExpect(status().is3xxRedirection())
        .andExpect(redirectedUrl("/rating/list"));
+  }
+  
+  @Test
+  public void testUpdate_Negative() throws Exception{
+    when(ratingService.saveRating(ratingValidTest)).thenReturn(ratingValidTest);
+    mockMvc.perform(post("/rating/update/{id}", "2")
+        .param("moodysRating", "Moodys Rating updateTest")
+        .param("sandPRating", "Sand PRating updateTest")
+        .param("fitchRating", "Fitch Rating updateTest")
+        .param("orderNumber", "thirty"))
+    .andExpect(status().isOk())
+    .andExpect(view().name("rating/update"))
+    .andExpect(model().attributeHasFieldErrors("rating", "orderNumber"));
   }
   
   @Test
