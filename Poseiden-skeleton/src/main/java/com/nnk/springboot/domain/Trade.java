@@ -81,6 +81,74 @@ public class Trade {
   public void setBuyQuantity(Double buyQuantity) {
     this.buyQuantity = buyQuantity;
   }
+
+  public Double getSellQuantity() {
+    return sellQuantity;
+  }
+
+  public Double getBuyPrice() {
+    return buyPrice;
+  }
+
+  public Double getSellPrice() {
+    return sellPrice;
+  }
+
+  public Timestamp getTradeDate() {
+    return tradeDate;
+  }
+
+  public String getSecurity() {
+    return security;
+  }
+
+  public String getStatus() {
+    return status;
+  }
+
+  public String getTrader() {
+    return trader;
+  }
+
+  public String getBenchmark() {
+    return benchmark;
+  }
+
+  public String getBook() {
+    return book;
+  }
+
+  public String getCreationName() {
+    return creationName;
+  }
+
+  public Timestamp getCreationDate() {
+    return creationDate;
+  }
+
+  public String getRevisionName() {
+    return revisionName;
+  }
+
+  public Timestamp getRevisionDate() {
+    return revisionDate;
+  }
+
+  public String getDealName() {
+    return dealName;
+  }
+
+  public String getDealType() {
+    return dealType;
+  }
+
+  public String getSourceListId() {
+    return sourceListId;
+  }
+
+  public String getSide() {
+    return side;
+  }
   
   
 }

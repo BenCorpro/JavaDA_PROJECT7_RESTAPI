@@ -67,10 +67,24 @@ public class UserControllerTest {
     when(userService.saveUser(userValidTest)).thenReturn(userValidTest);
     mockMvc.perform(post("/user/validate")
         .param("username", "Username valid")
-        .param("password", "Password valid")
+        .param("password", "T3$tauto")
         .param("fullname", "Fullname valid")
         .param("role", UserRole.USER.name()))
-      .andExpect(status().is2xxSuccessful());
+        .andExpect(status().is3xxRedirection())
+        .andExpect(redirectedUrl("/user/list"));
+  }
+  
+  @Test
+  public void testValidate_Negative() throws Exception{
+    when(userService.saveUser(userValidTest)).thenReturn(userValidTest);
+    mockMvc.perform(post("/user/validate")
+        .param("username", "Username valid")
+        .param("password", "Password invalid")
+        .param("fullname", "Fullname valid")
+        .param("role", UserRole.USER.name()))
+        .andExpect(status().isOk())
+        .andExpect(view().name("user/add"))
+        .andExpect(model().attributeHasFieldErrors("user", "password"));
   }
   
   @Test
@@ -92,6 +106,19 @@ public class UserControllerTest {
         .param("role", UserRole.USER.name()))
        .andExpect(status().is3xxRedirection())
        .andExpect(redirectedUrl("/user/list"));
+  }
+  
+  @Test
+  public void testUpdate_Negative() throws Exception{
+    when(userService.saveUser(userValidTest)).thenReturn(userValidTest);
+    mockMvc.perform(post("/user/update/{id}", "1")
+        .param("username", "Username update")
+        .param("password", "Password update")
+        .param("fullname", "Fullname update")
+        .param("role", ""))
+        .andExpect(status().isOk())
+        .andExpect(view().name("user/update"))
+        .andExpect(model().attributeHasFieldErrors("user", "role"));
   }
   
   @Test

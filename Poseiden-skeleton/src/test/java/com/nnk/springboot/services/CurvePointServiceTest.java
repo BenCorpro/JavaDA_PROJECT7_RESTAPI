@@ -1,6 +1,7 @@
 package com.nnk.springboot.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -54,12 +55,26 @@ public class CurvePointServiceTest {
   }
   
   @Test
+  public void testSaveCurvePoint_Null() {
+    CurvePoint saveCurvePointTest = null;
+    saveCurvePointTest = curvePointService.saveCurvePoint(saveCurvePointTest);
+    assertNull(saveCurvePointTest);
+  }
+  
+  @Test
   public void testUpdateCurvePoint() {
     Integer curveUpdateIdTest = curvePointDeleteTest.getId();
     CurvePoint updateCurvePointTest = new CurvePoint(40, 40d, 60d);
     updateCurvePointTest = curvePointService.updateCurvePoint(curveUpdateIdTest, updateCurvePointTest);
     assertNotNull(updateCurvePointTest);
     assertEquals(40d,updateCurvePointTest.getTerm());
+  }
+  
+  @Test
+  public void testUpdateCurvePoint_Null() {
+    CurvePoint updateCurvePointTest = new CurvePoint(40, 40d, 60d);
+    updateCurvePointTest = curvePointService.updateCurvePoint(999999999, updateCurvePointTest);
+    assertNull(updateCurvePointTest);
   }
   
   @Test
@@ -71,9 +86,20 @@ public class CurvePointServiceTest {
   }
   
   @Test
+  public void testGetCurvePointById_Null() {
+    CurvePoint curveByIdTest = curvePointService.getCurvePointById(999999999);
+    assertNull(curveByIdTest);
+  }
+  
+  @Test
   public void testDeleteCurvePointById() {
     Integer curveDeleteIdTest = curvePointDeleteTest.getId();
     curvePointService.deleteCurvePointById(curveDeleteIdTest);
     assertNull(curvePointService.getCurvePointById(curveDeleteIdTest));
+  }
+  
+  @Test
+  public void testDeleteCurvePointById_False() {
+    assertFalse(curvePointService.deleteCurvePointById(999999999));
   }
 }

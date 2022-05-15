@@ -73,6 +73,18 @@ public class CurveControllerTest {
   }
   
   @Test
+  public void testValidate_Negative() throws Exception{
+    when(curvePointService.saveCurvePoint(curveValidTest)).thenReturn(curveValidTest);
+    mockMvc.perform(post("/curvePoint/validate")
+        .param("curveId", "20")
+        .param("term", "twenty")
+        .param("value", "40"))
+    .andExpect(status().isOk())
+    .andExpect(view().name("curvePoint/add"))
+    .andExpect(model().attributeHasFieldErrors("curvePoint", "term"));
+  }
+  
+  @Test
   public void testShowUpdateForm() throws Exception{
     when(curvePointService.getCurvePointById(1)).thenReturn(curveValidTest);
     mockMvc.perform(get("/curvePoint/update/1"))
@@ -90,6 +102,18 @@ public class CurveControllerTest {
         .param("value", "50"))
        .andExpect(status().is3xxRedirection())
        .andExpect(redirectedUrl("/curvePoint/list"));
+  }
+  
+  @Test
+  public void testUpdate_Negative() throws Exception{
+    when(curvePointService.saveCurvePoint(curveValidTest)).thenReturn(curveValidTest);
+    mockMvc.perform(post("/curvePoint/update/{id}", "2")
+        .param("curveId", "30")
+        .param("term", "30")
+        .param("value", "-40"))
+    .andExpect(status().isOk())
+    .andExpect(view().name("curvePoint/update"))
+    .andExpect(model().attributeHasFieldErrors("curvePoint", "value"));
   }
   
   @Test

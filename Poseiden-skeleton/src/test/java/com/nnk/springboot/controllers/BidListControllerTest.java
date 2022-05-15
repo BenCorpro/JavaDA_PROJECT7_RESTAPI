@@ -74,6 +74,18 @@ public class BidListControllerTest {
   }
   
   @Test
+  public void testValidate_Negative() throws Exception{
+    when(bidListService.saveBidList(bidValidTest)).thenReturn(bidValidTest);
+    mockMvc.perform(post("/bidList/validate")
+        .param("account", "Account Test Valid")
+        .param("type", "Type Test Valid")
+        .param("bidQuantity", "-20"))
+      .andExpect(status().isOk())
+      .andExpect(view().name("bidList/add"))
+      .andExpect(model().attributeHasFieldErrors("bidList", "bidQuantity"));
+  }
+  
+  @Test
   public void testShowUpdateForm() throws Exception{
     when(bidListService.getBidListById(1)).thenReturn(bidValidTest);
     mockMvc.perform(get("/bidList/update/1"))
@@ -91,6 +103,18 @@ public class BidListControllerTest {
         .param("bidQuantity", "30"))
        .andExpect(status().is3xxRedirection())
        .andExpect(redirectedUrl("/bidList/list"));
+  }
+  
+  @Test
+  public void testUpdate_Negative() throws Exception{
+    when(bidListService.saveBidList(bidValidTest)).thenReturn(bidValidTest);
+    mockMvc.perform(post("/bidList/update/{id}", "1")
+        .param("account", "Account Test Update")
+        .param("type", "")
+        .param("bidQuantity", "30"))
+       .andExpect(status().isOk())
+       .andExpect(view().name("bidList/update"))
+       .andExpect(model().attributeHasFieldErrors("bidList", "type"));
   }
   
   @Test

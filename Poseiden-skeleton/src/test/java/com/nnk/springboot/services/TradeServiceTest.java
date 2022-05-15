@@ -1,6 +1,7 @@
 package com.nnk.springboot.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -54,12 +55,26 @@ public class TradeServiceTest {
   }
   
   @Test
+  public void testSaveTrade_Null() {
+    Trade saveTradeTest = null;
+    saveTradeTest = tradeService.saveTrade(saveTradeTest);
+    assertNull(saveTradeTest);
+  }
+  
+  @Test
   public void testUpdateTrade() {
     Integer tradeUpdateIdTest = tradeUpdateTest.getTradeId();
     Trade updateTradeTest = new Trade("Trade Account Testupdt", "Type Testupdt", 40d);
     updateTradeTest = tradeService.updateTrade(tradeUpdateIdTest, updateTradeTest);
     assertNotNull(updateTradeTest);
     assertEquals("Trade Account Testupdt",updateTradeTest.getAccount());
+  }
+  
+  @Test
+  public void testUpdateTrade_Null() {
+    Trade updateTradeTest = new Trade("Trade Account Testupdt", "Type Testupdt", 40d);
+    updateTradeTest = tradeService.updateTrade(999999999, updateTradeTest);
+    assertNull(updateTradeTest);
   }
   
   @Test
@@ -71,9 +86,20 @@ public class TradeServiceTest {
   }
   
   @Test
+  public void testGetTradeById_Null() {
+    Trade tradeByIdTest = tradeService.getTradeById(999999999);
+    assertNull(tradeByIdTest);
+  }
+  
+  @Test
   public void testDeleteById() {
     Integer tradeDeleteIdTest = tradeDeleteTest.getTradeId();
     tradeService.deleteById(tradeDeleteIdTest);
     assertNull(tradeService.getTradeById(tradeDeleteIdTest));
+  }
+  
+  @Test
+  public void testDeleteById_False() {
+    assertFalse(tradeService.deleteById(999999999));
   }
 }

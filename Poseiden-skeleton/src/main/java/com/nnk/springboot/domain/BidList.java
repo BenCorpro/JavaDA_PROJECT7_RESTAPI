@@ -83,5 +83,77 @@ public class BidList {
     this.bidQuantity = bidQuantity;
   }
 
+  public Double getAskQuantity() {
+    return askQuantity;
+  }
+
+  public Double getBid() {
+    return bid;
+  }
+
+  public Double getAsk() {
+    return ask;
+  }
+
+  public String getBenchmark() {
+    return benchmark;
+  }
+
+  public Timestamp getBidListDate() {
+    return bidListDate;
+  }
+
+  public String getCommentary() {
+    return commentary;
+  }
+
+  public String getSecurity() {
+    return security;
+  }
+
+  public String getStatus() {
+    return status;
+  }
+
+  public String getTrader() {
+    return trader;
+  }
+
+  public String getBook() {
+    return book;
+  }
+
+  public String getCreationName() {
+    return creationName;
+  }
+
+  public Timestamp getCreationDate() {
+    return creationDate;
+  }
+
+  public String getRevisionName() {
+    return revisionName;
+  }
+
+  public Timestamp getRevisionDate() {
+    return revisionDate;
+  }
+
+  public String getDealName() {
+    return dealName;
+  }
+
+  public String getDealType() {
+    return dealType;
+  }
+
+  public String getSourceListId() {
+    return sourceListId;
+  }
+
+  public String getSide() {
+    return side;
+  }
+
   
 }
